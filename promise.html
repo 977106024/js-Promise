@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>手写一个简单的promise</title>
+</head>
+
+<body>
+    <script>
+        class Promise{
+            constructor(callback){
+                this.status = 'pending' //状态
+                this.success = undefined
+                this.fail = undefined
+                this.callbacks = [] //事件中心
+                callback(this.resolve.bind(this),this.reject.bind(this)) //promise回调
+            }
+
+            resolve(res){
+                this.status = 'resolve'
+                this.success = res
+                this.callbacks.forEach(element=>element.resolve(res))
+            }
+
+            reject(res){
+                this.status = 'reject'
+                this.fail = res
+                this.callbacks.forEach(element=>element.reject(res))
+            }
+
+            then(resolve,reject){
+                if(this.status === 'pending'){
+                    this.callbacks.push({ //放入事件中心 等待调用
+                        resolve,
+                        reject
+                    })
+                }
+            
+                if(this.status === 'resolve'){ //如果是同步 状态改变立马调用
+                    resolve(this.success)
+                }
+
+                if (self.status === 'rejected') {
+                    rejected(this.fail); //将reject函数保留的失败值传递作为参数
+                }
+                return this
+            }
+        }
+
+        new Promise(resolve=>{
+            setTimeout(()=>{
+                resolve('11111')
+            },2000)
+        }).then(res=>{
+            console.log(res)
+        })
+
+
+
+      
+
+// function Fn() {
+//     this.a = 1
+//     this.arr = [1, 2, this.a]
+// }
+
+// Fn.prototype.show = function () {
+//     console.log(this.a, this.arr)
+// }
+
+
+// function Fn2() {
+//     this.a = 2
+//     Fn.call(this)
+// }
+
+// // Fn2.prototype = new Fn()
+// Fn2.prototype = Object.create(Fn.prototype)
+// var f2 = new Fn2()
+// var f3 = new Fn2()
+// console.log(f2)
+// f3.a = 100
+// f2.show() //1 [1,2,1]
+// f3.show() //100 [1,2,1]
+// f2.arr.push('111')
+// f2.show() //1 [1,2,1,111]
+// f3.show() //100 [1,2,1,111]
+
+// function create(prototype){
+//     function Fn(){}
+//     Fn.prototype = prototype
+//     return new Fn()
+// }
+
+// function createObj(prototype){
+//     const obj = create(prototype)
+//     obj.getA = function (){
+//         console.log(this.a)
+//     }
+//     return obj
+// }
+
+    </script>
+</body>
+
+</html>
