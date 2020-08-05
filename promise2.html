@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        class Promise {
+            constructor(callback){
+                this.status = 'pending'
+                this.success = undefined
+                this.fail = undefined
+                this.callbackObj = []
+                callback(this.resolve.bind(this),this.reject.bind(this))
+            }
+
+            resolve(res){
+                this.status = 'resolve'
+                this.success = res
+                this.callbackObj.forEach(fn=>fn.resolve(res))
+            }
+
+            reject(err){
+                this.status = 'reject'
+                this.fail = err
+                this.callbackObj.forEach(fn=>fn.resolve(err))
+            }
+
+            then(resolve,reject){
+                if(this.status === 'pending'){
+                    this.callbackObj.push({
+                        resolve,
+                        reject
+                    })
+                }
+
+                if(this.status === 'resolve'){
+                    resolve(this.success)
+                }
+
+                if(this.status === 'reject'){
+                    reject(this.fail)
+                }
+            }
+        }
+
+        new Promise(resolve=>{
+            setTimeout(()=>{
+                resolve('1111')
+            },4000)
+        }).then(res=>{
+            console.log(res)
+        })
+    </script>
+</body>
+</html>
