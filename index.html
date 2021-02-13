@@ -1,0 +1,20 @@
+<div id="app">
+    {{message}}
+    <input type="text" id="input" v-model="inputData">
+    <button v-on:click="log">x</button>
+</div>
+<script type="module">
+    import { ToyVue as Vue} from './toy-vue.js'
+    var app = new Vue({
+        el:'#app',
+        data:{
+            message:'hello Vue',
+            inputData:'this is input'
+        },
+        methods:{
+            log(){
+                this.inputData = this.inputData.split('').reverse().join('')
+            }
+        }
+    })
+</script>
