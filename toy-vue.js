@@ -100,3 +100,26 @@ const reactive = (object) => {
 
 // counter.num = 1
 
+// const proxy = (vm,key) =>{
+//     Object.defineProperty(vm,key,{
+//         get(){
+//             console.log()
+//             return vm._data[key]
+//         },
+//         set(val){
+//             vm._data[key] = val
+//         }
+//     })
+// }
+
+// const options = {data:{a:1,b:2}}
+// const data = options.data
+// const vm = {}
+// vm._data = {a:1,b:2}
+
+// const keys = Object.keys(data)
+// let i = keys.length
+// while(i--){
+//     proxy(vm,keys[i])
+// }
+
